@@ -1,0 +1,191 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Primary green theme */
+  --primary: #4CAF50;
+  --primary-light: #E8F5E9;
+  --primary-dark: #2E7D32;
+
+  /* Backgrounds */
+  --bg: #F5F7F6;
+  --surface: #FFFFFF;
+  --card: #FFFFFF;
+
+  /* Text */
+  --text: #1F2937;
+  --muted: #6B7280;
+
+  /* Status colors */
+  --success: #22C55E;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Scrollbar ─────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--surface); }
+::-webkit-scrollbar-thumb { background: rgba(108,99,255,0.4); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(108,99,255,0.7); }
+
+/* ── Selection ─────────────────────────────────────────── */
+::selection { background: rgba(108,99,255,0.3); color: #fff; }
+
+/* ── Glass card utility ────────────────────────────────── */
+@layer components {
+  .glass-card {
+    @apply bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl;
+  }
+  .glass-card-hover {
+    @apply glass-card transition-all duration-300 hover:bg-white/8 hover:border-white/20 hover:shadow-card;
+  }
+  .btn-primary {
+    @apply bg-primary text-white font-body font-medium px-6 py-3 rounded-xl
+           transition-all duration-200 hover:bg-primary/90 hover:shadow-glow-primary
+           active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .btn-ghost {
+    @apply border border-white/20 text-text-primary font-body font-medium px-6 py-3 rounded-xl
+           transition-all duration-200 hover:bg-white/10 hover:border-white/40
+           active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .btn-danger {
+    @apply bg-danger/20 border border-danger/40 text-danger font-body font-medium px-6 py-3 rounded-xl
+           transition-all duration-200 hover:bg-danger/30 active:scale-95;
+  }
+  .input-field {
+    @apply bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-text-primary
+           placeholder:text-muted focus:outline-none focus:border-primary/60 focus:bg-white/10
+           transition-all duration-200 w-full font-body;
+  }
+  .section-label {
+    @apply text-xs font-body font-semibold tracking-widest uppercase text-muted;
+  }
+  .ai-text {
+    @apply font-body font-light italic text-secondary/90 leading-relaxed;
+  }
+}
+
+/* ── Noise overlay ─────────────────────────────────────── */
+.noise-overlay::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.4;
+}
+
+/* ── Ambient orbs ──────────────────────────────────────── */
+.ambient-orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+  animation: float 8s ease-in-out infinite;
+}
+
+/* ── Typing indicator ──────────────────────────────────── */
+.typing-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--secondary);
+  animation: typing-bounce 1.2s ease-in-out infinite;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typing-bounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+  30%            { transform: translateY(-6px); opacity: 1; }
+}
+
+/* ── Pulse recording ring ──────────────────────────────── */
+@keyframes recording-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(252,92,101,0.7); }
+  70%  { box-shadow: 0 0 0 12px rgba(252,92,101,0); }
+  100% { box-shadow: 0 0 0 0 rgba(252,92,101,0); }
+}
+.recording-pulse { animation: recording-pulse 1.5s ease-out infinite; }
+
+/* ── Shimmer loading ───────────────────────────────────── */
+.shimmer {
+  background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 75%);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* ── Distress gauge arc ────────────────────────────────── */
+.gauge-needle {
+  transform-origin: 50% 100%;
+  transition: transform 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ── Chat bubble tail ──────────────────────────────────── */
+.bubble-user::after {
+  content: '';
+  position: absolute;
+  right: -8px; bottom: 10px;
+  border: 8px solid transparent;
+  border-left-color: rgba(108,99,255,0.3);
+}
+.bubble-ai::after {
+  content: '';
+  position: absolute;
+  left: -8px; bottom: 10px;
+  border: 8px solid transparent;
+  border-right-color: rgba(255,255,255,0.05);
+}
+
+/* ── Page transition wrapper ───────────────────────────── */
+.page-enter {
+  opacity: 0;
+  transform: translateY(12px);
+}
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 400ms ease, transform 400ms ease;
+}
+
+* {
+  border-radius: 12px;
+}
+
+.card {
+  background: var(--card);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+.sidebar {
+  background: #FFFFFF;
+  border-right: 1px solid #E5E7EB;
+}
+
+.nav-item.active {
+  background: var(--primary-light);
+  color: var(--primary);
+  border-radius: 12px;
+}
